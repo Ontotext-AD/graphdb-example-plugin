@@ -1,4 +1,4 @@
-# Example plugins
+# GraphDB Example plugins
 
 This is a sample project which aims to illustrate the use of the GraphDB Plugin API. Is is created entirely for training
 purposes.
