@@ -75,7 +75,17 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <!-- Repository needed for GraphDB artifacts and some support artifacts -->
+        <repository>
+            <id>owlim-releases</id>
+            <name>GraphDB Releases</name>
+            <url>http://maven.ontotext.com/repository/owlim-releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>com.ontotext.graphdb</groupId>
