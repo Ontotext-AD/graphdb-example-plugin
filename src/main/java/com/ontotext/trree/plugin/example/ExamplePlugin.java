@@ -2,6 +2,7 @@ package com.ontotext.trree.plugin.example;
 
 import com.ontotext.trree.sdk.*;
 import com.ontotext.trree.sdk.impl.RequestContextImpl;
+import org.eclipse.rdf4j.common.iterator.SingletonIterator;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Value;
@@ -9,7 +10,6 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.query.BindingSet;
 import org.eclipse.rdf4j.query.Dataset;
 import org.eclipse.rdf4j.query.impl.MapBindingSet;
-import org.eclipse.rdf4j.util.iterators.SingletonIterator;
 
 import java.util.Calendar;
 import java.util.Iterator;
