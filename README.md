@@ -72,6 +72,8 @@ Example plugin initialized!
 
 ## Usage of the ExampleBasic plugin
 
+### Get the time
+
 Run the following query to retrieve the current system date/time:
 
 ```
@@ -81,7 +83,40 @@ WHERE {
 } 
 ```
 
-The variable `?o` will be bound to a literal with the `xsd:dateTime` type. 
+The variable `?o` will be bound to a literal with the `xsd:dateTime` type.
+
+### List and filter values
+
+Insert the following simple data to provide a small set of humans that each have associated items:
+
+```
+INSERT DATA {
+    <http://example.com/John> a <http://example.com/Human> ;
+        <http://example.com/hasItem> <http://example.com/iri1> .
+    <http://example.com/Mary> a <http://example.com/Human> ;
+        <http://example.com/hasItem> <http://example.com/iri2> .
+}
+```
+
+Then run this query to fetch the items associated with each human as well as the item parts (provided by the ExampleBasic plugin via the <http://example.com/list> predicate):
+
+```
+SELECT ?human ?item ?itemPart {
+    ?human a <http://example.com/Human> ;
+        <http://example.com/hasItem> ?item .
+    ?item <http://example.com/list> ?itemPart
+}
+```
+
+The results look like this:
+
+| ?human                  | ?item                   | ?itemPart |
+|-------------------------|-------------------------|-----------|
+| http://example.com/John | http://example.com/iri1 | "a"       |
+| http://example.com/John | http://example.com/iri1 | "b"       |
+| http://example.com/Mary | http://example.com/iri2 | "a"       |
+| http://example.com/Mary | http://example.com/iri2 | "c"       |
+
 
 ## Usage of the Example plugin
 
