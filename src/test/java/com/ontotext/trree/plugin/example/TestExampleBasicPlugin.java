@@ -11,6 +11,11 @@ import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.config.RepositoryConfig;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.Assert.*;
 
 /**
@@ -42,5 +47,69 @@ public class TestExampleBasicPlugin extends SingleRepositoryFunctionalTest {
                 assertFalse("There must be a single row in the result", result.hasNext());
             }
         }
+    }
+
+    @Test
+    public void testExampleBasicList() {
+        try (RepositoryConnection connection = getRepository().getConnection()) {
+            // Select everything provided by the list predicate
+            TupleQuery query1 = connection.prepareTupleQuery("select ?s ?o { ?s <http://example.com/list> ?o }");
+            try (TupleQueryResult result = query1.evaluate()) {
+                assertEquals("All results listed",
+                        Arrays.asList("[s=http://example.com/iri1;o=\"a\"]",
+                                "[s=http://example.com/iri1;o=\"b\"]",
+                                "[s=http://example.com/iri2;o=\"a\"]",
+                                "[s=http://example.com/iri2;o=\"c\"]"),
+                        extractBindingAsString(result));
+            }
+
+            // Select everything provided by the list predicate where the object position is "a"
+            TupleQuery query2 = connection.prepareTupleQuery("select ?s { ?s <http://example.com/list> \"a\" }");
+            try (TupleQueryResult result = query2.evaluate()) {
+                assertEquals("Only subjects that have 'a' in the object position",
+                        Arrays.asList("[s=http://example.com/iri1]", "[s=http://example.com/iri2]"),
+                        extractBindingAsString(result));
+            }
+
+            // Select everything provided by the list predicate where the subject position is "http://example.com/iri2"
+            TupleQuery query3 = connection.prepareTupleQuery(
+                    "select ?o { <http://example.com/iri2> <http://example.com/list> ?o }");
+            try (TupleQueryResult result = query3.evaluate()) {
+                assertEquals("Only objects that have 'http://example.com/iri2' in the object position",
+                        Arrays.asList("[o=\"a\"]", "[o=\"c\"]"),
+                        extractBindingAsString(result));
+            }
+
+            // Now add some data that use http://example.com/iri1 and http://example.com/iri2
+            connection.prepareUpdate("insert data {\n"
+                    + "<http://example.com/John> a <http://example.com/Human> ;\n"
+                    + "    <http://example.com/hasItem> <http://example.com/iri1> .\n"
+                    + "<http://example.com/Mary> a <http://example.com/Human> ;\n"
+                    + "    <http://example.com/hasItem> <http://example.com/iri2> .\n"
+                    + "}").execute();
+
+            // Select every human and the items the human has, then ask the plugin to list those items.
+            // This essentially performs a join between data stored in the repository and data provided by the plugin.
+            TupleQuery query4 = connection.prepareTupleQuery("select ?human ?item ?itemPart {\n"
+                    + "?human a <http://example.com/Human> ;\n"
+                    + "    <http://example.com/hasItem> ?item .\n"
+                    + "?item <http://example.com/list> ?itemPart\n"
+                    + "}");
+            try (TupleQueryResult result = query4.evaluate()) {
+                assertEquals("List humans and their corresponding items/parts",
+                        Arrays.asList("[human=http://example.com/John;item=http://example.com/iri1;itemPart=\"a\"]",
+                                "[human=http://example.com/John;item=http://example.com/iri1;itemPart=\"b\"]",
+                                "[human=http://example.com/Mary;item=http://example.com/iri2;itemPart=\"a\"]",
+                                "[human=http://example.com/Mary;item=http://example.com/iri2;itemPart=\"c\"]"),
+                        extractBindingAsString(result));
+            }
+
+        }
+    }
+
+    private List<String> extractBindingAsString(TupleQueryResult result) {
+        return result.stream()
+                .map(Object::toString)
+                .collect(Collectors.toList());
     }
 }
