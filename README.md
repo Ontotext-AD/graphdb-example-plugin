@@ -15,6 +15,17 @@ The responsibility of the basic plugin is:
 - It interprets the pattern `?s <http://example.com/now> ?o` and binds the object to a literal containing
 the system date/time of the machine running GraphDB. The subject position is not used and its value does not matter.
 
+- It interprets the pattern `?s <http://example.com/list> ?o` and binds the subject and object to a set of values:
+
+    | ?s                      | ?o  |
+    |-----|-----|
+    | http://example.com/iri1 | "a" |
+    | http://example.com/iri1 | "b" |
+    | http://example.com/iri2 | "a" |
+    | http://example.com/iri2 | "c" |
+
+    This pattern will also take into account the values of ?s and ?o, if they are bound by other patterns in the same query.
+
 The complex plugin has more responsibilities:
 
 - If a `FROM <http://example.com/time>` clause is detected in the query, the result is a single binding set in which

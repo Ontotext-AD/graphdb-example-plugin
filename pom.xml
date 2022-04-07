@@ -9,7 +9,7 @@
     <version>2.0-SNAPSHOT</version>
 
     <properties>
-        <graphdb.version>10.0.0-RDF4J4-BOOTSTRAP1</graphdb.version>
+        <graphdb.version>10.0.0-M2-TR8</graphdb.version>
         <dependency.check.version>6.2.2</dependency.check.version>
     </properties>
 
@@ -80,7 +80,7 @@
         <repository>
             <id>owlim-releases</id>
             <name>GraphDB Releases</name>
-            <url>http://maven.ontotext.com/repository/owlim-releases</url>
+            <url>https://maven.ontotext.com/repository/owlim-releases</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
