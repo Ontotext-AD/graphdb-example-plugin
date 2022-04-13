@@ -1,2 +1,3 @@
 com.ontotext.trree.plugin.example.ExampleBasicPlugin
 com.ontotext.trree.plugin.example.ExamplePlugin
+com.ontotext.trree.plugin.example.ExampleFunctionalPlugin
