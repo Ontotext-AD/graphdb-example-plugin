@@ -9,7 +9,7 @@
     <version>2.0-SNAPSHOT</version>
 
     <properties>
-        <graphdb.version>10.0.0-M2-TR8</graphdb.version>
+        <graphdb.version>10.0.0</graphdb.version>
         <dependency.check.version>6.2.2</dependency.check.version>
     </properties>
 
@@ -34,6 +34,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <graphdb.stats.default>disabled</graphdb.stats.default>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>

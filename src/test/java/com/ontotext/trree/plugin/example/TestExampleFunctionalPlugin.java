@@ -1,5 +1,7 @@
 package com.ontotext.trree.plugin.example;
 
+import com.ontotext.graphdb.Config;
+import com.ontotext.test.TemporaryLocalFolder;
 import com.ontotext.test.functional.base.SingleRepositoryFunctionalTest;
 import com.ontotext.test.utils.StandardUtils;
 import org.eclipse.rdf4j.query.TupleQueryResult;
@@ -8,8 +10,7 @@ import org.eclipse.rdf4j.repository.config.RepositoryConfig;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -23,10 +24,24 @@ import static org.junit.Assert.fail;
  * Tests the exampleFunctional plugin.
  */
 public class TestExampleFunctionalPlugin extends SingleRepositoryFunctionalTest {
+
+    @ClassRule
+    public static TemporaryLocalFolder tmpFolder = new TemporaryLocalFolder();
     @Override
     protected RepositoryConfig createRepositoryConfiguration() {
         // Creates a repository configuration with the rdfsplus-optimized ruleset
         return StandardUtils.createOwlimSe("rdfsplus-optimized");
+    }
+    @BeforeClass
+    public static void setWorkDir() {
+        System.setProperty("graphdb.home.work", String.valueOf(tmpFolder.getRoot()));
+        Config.reset();
+    }
+
+    @AfterClass
+    public static void resetWorkDir() {
+        System.clearProperty("graphdb.home.work");
+        Config.reset();
     }
 
     @Before
