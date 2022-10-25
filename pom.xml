@@ -116,6 +116,13 @@
             <artifactId>graphdb-tests-base</artifactId>
             <version>${graphdb.version}</version>
             <scope>test</scope>
+            <!-- Temporary workaround for missing Ontop dependencies for Ontotext build of Ontop -->
+            <exclusions>
+                <exclusion>
+                    <groupId>it.unibz.inf.ontop</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -123,6 +130,13 @@
             <artifactId>graphdb-runtime</artifactId>
             <version>${graphdb.version}</version>
             <scope>test</scope>
+            <!-- Temporary workaround for missing Ontop dependencies for Ontotext build of Ontop -->
+            <exclusions>
+                <exclusion>
+                    <groupId>it.unibz.inf.ontop</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
