@@ -9,7 +9,7 @@
     <version>2.0-SNAPSHOT</version>
 
     <properties>
-        <graphdb.version>10.0.0</graphdb.version>
+        <graphdb.version>10.3.0</graphdb.version>
         <dependency.check.version>6.2.2</dependency.check.version>
     </properties>
 
@@ -129,24 +129,8 @@
             <groupId>com.ontotext.graphdb</groupId>
             <artifactId>graphdb-runtime</artifactId>
             <version>${graphdb.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
             <!-- Temporary workaround for missing Ontop dependencies for Ontotext build of Ontop -->
-            <exclusions>
-                <exclusion>
-                    <groupId>it.unibz.inf.ontop</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.collections</groupId>
-            <artifactId>eclipse-collections-api</artifactId>
-            <version>11.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.collections</groupId>
-            <artifactId>eclipse-collections</artifactId>
-            <version>11.1.0</version>
         </dependency>
     </dependencies>
 
